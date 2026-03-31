@@ -1,0 +1,12 @@
+[Unit]
+Description=HPR GPS Telemetry
+After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/hpr/hpr_gps.py
+Restart=always
+RestartSec=5
+User=admin
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+mqtt:
+  sensor:
+    - name: "Trike 1 GPS Speed"
+      state_topic: "hpr/trike1/nav"
+      value_template: "{{ value_json.speed_kmh | float | round(0) }}"
+      unit_of_measurement: "km/h"
