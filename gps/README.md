@@ -113,3 +113,24 @@ Merge `home_assistant_mqtt.yaml` into your HA `configuration.yaml`, then restart
 - Multi-trike support
 - Logging + replay
 - Race analytics
+
+```mermaid
+flowchart LR
+    subgraph Pi["Raspberry Pi on Trike"]
+        GPS["GPS Hardware"]
+        GPSD["gpsd daemon"]
+        SCRIPT["hpr_gps.py<br/>(MQTT Publisher)"]
+
+        GPS --> GPSD --> SCRIPT
+    end
+
+    SCRIPT -- "MQTT publish<br/>topic: hpr/trike1/nav" --> BROKER["MQTT Broker<br/>(100.109.71.98:1883)"]
+
+    subgraph Subscribers["MQTT Subscribers"]
+        HA["Home Assistant<br/>(mqtt.sensor)"]
+        OTHER["Other Clients<br/>(e.g. mosquitto_sub, apps)"]
+    end
+
+    BROKER -->|"subscribe to<br/>hpr/trike1/nav"| HA
+    BROKER -->|"subscribe to<br/>hpr/trike1/nav"| OTHER
+```
